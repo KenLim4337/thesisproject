@@ -1,52 +1,89 @@
 
 
-if (localStorage.getItem("discipline")===null) {
+if (localStorage.getItem("discipline") === null) {
     window.location.href = "index.html";
+
 } else {
     console.log(localStorage.getItem("discipline"));
-    $.ajax({
-        url: "php/rolegrab.php",
-        data: {discipline: localStorage.getItem("discipline")},
-        type: "post",
-        success: function (result) {
-            var obj = jQuery.parseJSON(result);
-            console.log(obj.role);
-            localStorage.setItem("role", obj.role);
-        }
-    });
 
-    if(localStorage.getItem("role") === "GUI") {
-        //hide timer and submit
-        $('#timer').hide();
-        $('#subanswer').hide();
-    } else if (localStorage.getItem("role") === "SOL") {
-        $('#timer').show();
-        $('#subanswer').show();
-    }
 }
 
-//Timer and refresher variables
-var x;
-//var refresh = setInterval(function() {getChat()},500);
-var start;
+$.ajax({
+    url: "php/rolegrab.php",
+    data: {discipline: localStorage.getItem("discipline")},
+    type: "post",
+    success: function (result) {
+        var obj = jQuery.parseJSON(result);
 
-//Get first question
-getQuestion();
+        console.log(obj.role);
+
+        if(obj.role === "GUI") {
+            //hide timer and submit
+            $('#timer').hide();
+            $('#subanswer').hide();
+        } else if (obj.role === "SOL") {
+            $('#timer').show();
+            $('#subanswer').show();
+            //Get first question if solver
+            getQuestion();
+        }
+
+        localStorage.setItem("role", obj.role);
+    }
+});
+
+//Timer and refresher variables
+    var x;
+    var refresh = setInterval(function() {getChat()},1000);
+    var start;
 
 
 //First timer
 //x = setInterval(function() {timer()},1000);
 
+
+
 //Contributor get (compare current list with chatlist)
 //Chat get, filter via start time
+//Check for question updates if guide
 function getChat() {
     $.ajax({
         url:"php/chatrefresh.php",
         success: function (result) {
             //if reset system message, switch teams and refresh page
-            console.log(result);
+            //console.log(result);
         }
     });
+
+    if(localStorage.getItem("role") === "GUI") {
+        $.ajax({
+            url:"php/newq.php",
+            type: 'post',
+            success: function (result) {
+                var question = jQuery.parseJSON(result);
+
+                if(question[0] === null) {
+                    $('#answer').empty();
+                    $('#question').html("No question to guide yet. Try refreshing after a few seconds!");
+                } else {
+
+                    $('#question').html(question[0]["text"]);
+
+                    $('#answer').empty();
+
+                    $.each(question[1], function (i, val) {
+
+                        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
+
+                    });
+                }
+
+            }
+
+        });
+    }
+
+        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
 }
 
 //Question get
@@ -67,11 +104,9 @@ function getQuestion() {
                 $('#answer').empty();
 
                 $.each(question[1], function (i, val) {
-                    if(localStorage.getItem("role") === "SOL") {
-                        $('#answer').append("<input id='rad' type='radio' name='answer' value='" + val[3] + "'>" + val[2] + "</input><br />");
-                    } else {
-                        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
-                    }
+
+                    $('#answer').append("<input id='rad' type='radio' name='answer' value='" + val[3] + "'>" + val[2] + "</input><br />");
+
                 });
             }
         }
@@ -82,7 +117,7 @@ function submitAnswer () {
     //If an answer is checked
     if($('[name="answer"]').is(':checked')) {
         //Correct answer
-        if(parseInt($('[name="answer"]:checked').val()) == 1) {
+        if(parseInt($('[name="answer"]:checked').val()) === 1) {
             terminate();
         } else {
             alert("Try again");

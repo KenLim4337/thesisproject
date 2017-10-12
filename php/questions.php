@@ -29,6 +29,7 @@ $aquery->close();
 
 //insert question into questionlog + time
 //get datetime
+
 $date = date('Y-m-d H:i:s');
 
 $lquery = $link->prepare("INSERT INTO questionlog VALUES (null, ?, ?)");
