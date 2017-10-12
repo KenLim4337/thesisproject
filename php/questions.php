@@ -16,8 +16,13 @@ WHERE   NOT EXISTS
         )
 */
 
-$query = "SELECT * FROM question q WHERE NOT EXISTS (SELECT * FROM slog l WHERE q.qid=l.qid);"
+require_once ("connect.php");
 
+$query = $link -> prepare("SELECT * FROM question q WHERE NOT EXISTS (SELECT * FROM solvelog l WHERE q.qid=l.qid);");
+$query -> execute();
 //RNG, pick 1 from the results and return
+
+
+
 
 ?>
