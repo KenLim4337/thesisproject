@@ -17,7 +17,7 @@ if (localStorage.getItem("discipline")===null) {
 
 //Timer and refresher variables
 var x;
-//var refresh = setInterval(function() {getChat()},500);
+var refresh = setInterval(function() {getChat()},500);
 var start;
 
 //Contributor get (compare current list with chatlist)
@@ -26,10 +26,11 @@ var start;
 
 //Chat get, filter via start time
 function getChat() {
-     $.post("php/chatrefresh.php",
-            {},
-         function(data, status) {
-             console.log(status + " " + data);
+    $.ajax({
+        url:"php/chatrefresh.php",
+        success: function (result) {
+            console.log(result);
+        }
     });
 }
 
