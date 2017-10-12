@@ -1,20 +1,5 @@
 <?php
 
-/*Grab random question,
- * select question not in solved
- * Display
- * */
-
-/*SELECT  *
-FROM    match m
-WHERE   NOT EXISTS
-        (
-        SELECT  1
-        FROM    email e
-        WHERE   e.id = m.id
-        )
-*/
-
 require_once ("connect.php");
 
 $discipline = $_POST['discipline'];
@@ -25,7 +10,6 @@ LIMIT 1");
 $query->bind_param("s",$disc);
 $disc = $discipline;
 $query -> execute();
-//RNG, pick 1 from the results and return
 $result = $query->get_result();
 $question = $result ->fetch_row();
 

@@ -17,6 +17,10 @@ $query->execute();
 $result = $query->get_result();
 $row = $result->fetch_assoc();
 
+$query->close();
+
 echo json_encode($row);
+
+$link->close();
 
 ?>

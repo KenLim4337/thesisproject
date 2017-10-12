@@ -1,4 +1,5 @@
 
+
 if (localStorage.getItem("discipline")===null) {
     window.location.href = "index.html";
 } else {
@@ -20,15 +21,19 @@ var x;
 //var refresh = setInterval(function() {getChat()},500);
 var start;
 
+//Get first question
+getQuestion();
+
+//First timer
+//x = setInterval(function() {timer()},1000);
+
 //Contributor get (compare current list with chatlist)
-
-
-
 //Chat get, filter via start time
 function getChat() {
     $.ajax({
         url:"php/chatrefresh.php",
         success: function (result) {
+            //if reset system message, switch teams and refresh page
             console.log(result);
         }
     });
@@ -41,24 +46,95 @@ function getQuestion() {
         data:{discipline: localStorage.getItem("discipline")},
         type: 'post',
         success: function (result) {
-            console.log(result.length);
+            //console.log(result.length);
             if (result.length === 0) {
                 getQuestion();
+
             } else {
                 var question = jQuery.parseJSON(result);
-                localStorage.setItem("currentQuestion", JSON.stringify(question[0]));
-                localStorage.setItem("currentAnswers", JSON.stringify(question[1]));
-                console.log(JSON.parse(localStorage.getItem("currentQuestion"))[1]);
-                $.each(JSON.parse(localStorage.getItem("currentAnswers")), function (i, val) {
-                    console.log(val[2]);
+                $('#question').html(question[0][1]);
+
+                $('#answer').empty();
+
+                $.each(question[1], function (i, val) {
+                    $('#answer').append("<input id='rad' type='radio' name='answer' value='" + val[3] + "'>" + val[2] + "</input><br />");
                 });
             }
         }
     });
 }
 
+function submitAnswer () {
+    //If an answer is checked
+    if($('[name="answer"]').is(':checked')) {
+        //Correct answer
+        if(parseInt($('[name="answer"]:checked').val()) == 1) {
+            terminate();
+        } else {
+            alert("Try again");
+        }
+    } else {
+        alert("Please select an answer");
+    }
+    //getQuestion();
+    //Answer chatlog
 
-//Starts/resets timer
+    /*if(correct) {
+        terminate();
+    } else {
+        alert ("Try again");
+    }*/
+}
+
+
+//Terminate if answert correct
+function terminate () {
+
+
+    var solvecount = 0;
+
+
+    //Check if completed
+
+
+    //Reset current timer value
+
+    clearInterval(x);
+    $('#timer').html("Time Taken: " + 0 + "h " + 0 + "m " + 0 + "s ");
+
+    $.ajax({
+        url:"php/countsolved.php",
+        data:{discipline: localStorage.getItem("discipline")},
+        type: 'post',
+        success: function (result) {
+            solvecount= parseInt(result);
+        }
+    });
+
+    console.log(solvecount);
+
+    if(solvecount === 6) {
+        //send system message that triggers reset
+
+    } else {
+
+        //load new question
+        getQuestion();
+        //Grab new time from question log
+        //start new timer
+
+        start = new Date();
+        x = setInterval(function() {timer()},1000);
+    }
+}
+
+function resetTimer() {
+
+}
+
+
+
+//runs timer
 function timer() {
 
     var now = new Date() - start;
@@ -67,32 +143,6 @@ function timer() {
     var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((now % (1000 * 60)) / 1000);
 
-    console.log (hours + "h " + minutes + "m " + seconds + "s ");
     $('#timer').html("Time Taken: " + hours + "h " + minutes + "m " + seconds + "s ");
 
-}
-
-
-function submitAnswer () {
-    getQuestion();
-    //Answer chatlog
-
-    /*if(correct) {
-        terminate();
-    } else {
-        alert ("Try again");
-    }*/
-    //terminate();
-}
-
-
-//Terminate if answert correct
-function terminate () {
-    clearInterval(x);
-    $('#timer').html("Time Taken: " + 0 + "h " + 0 + "m " + 0 + "s ");
-    //load new question
-    //Grab new time from question log
-    //start new timer
-    start = new Date();
-    x = setInterval(function() {timer()},1000);
 }

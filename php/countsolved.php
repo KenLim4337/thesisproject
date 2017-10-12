@@ -10,11 +10,11 @@ require_once ("connect.php");
 
 $discipline = $_POST['discipline'];
 
-$query = $link -> prepare("COUNT(id) FROM solvelog WHERE disc=?");
+$query = $link -> prepare("SELECT * FROM solvelog WHERE disc=?");
 $disc = $discipline;
 $query->execute();
-$result = $query->get_result();
+$query->store_result();
 
-echo $result->fetch_field();
+echo $query->num_rows();
 
 ?>
