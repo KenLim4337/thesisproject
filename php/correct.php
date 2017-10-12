@@ -13,13 +13,15 @@ $tempid = $_POST["id"];
 $tempqid = $_POST["qid"];
 $tempdisc = $_POST["discipline"];
 $tempatt = $_POST["attempts"];
+$temptime = $_POST["time"];
 
 $lquery = $link->prepare("INSERT INTO solvelog VALUES (null, ?, ?, ?, ?, ?)");
-$lquery->bind_param("iiis", $uid, $qid, $att, $disc);
+$lquery->bind_param("iiiis", $uid, $qid, $att, $time, $disc);
 $uid = $tempid;
 $qid = $tempqid;
 $att = $tempatt;
 $disc = $tempdisc;
+$time = $temptime;
 
 $lquery->execute();
 

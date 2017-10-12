@@ -37,10 +37,16 @@ $.ajax({
     var refresh = setInterval(function() {getChat()},1000);
     var start;
 
+    //number of attempts and attempt timer
     var attempt = 0;
+    var totaltime = 0;
 
-//First timer
-//x = setInterval(function() {timer()},1000);
+    //init solve count
+    localStorage.setItem("solvecount", "0");
+
+    //First timer
+    start = new Date();
+    x = setInterval(function() {timer()},1000);
 
 
 
@@ -51,8 +57,11 @@ function getChat() {
     $.ajax({
         url:"php/chatrefresh.php",
         success: function (result) {
-            //if reset system message, switch teams and refresh page
-            //console.log(result);
+
+            $('#display').html(result);
+
+            $('#display').animate({
+                scrollTop: $('#display').get(0).scrollHeight});
         }
     });
 
@@ -82,6 +91,33 @@ function getChat() {
             }
 
         });
+
+        var otherdisc;
+
+        if (localStorage.getItem("discipline") === "PSY") {
+            otherdisc = "IT";
+        } else if (localStorage.getItem("discipline") === "IT") {
+            otherdisc = "PSY";
+        }
+
+        $.ajax({
+            url:"php/countsolved.php",
+            data:{discipline: otherdisc},
+            type: 'post',
+            success: function (result) {
+                localStorage.setItem("solvecount", parseInt(result));
+            }
+        });
+
+        if(parseInt(localStorage.getItem("solvecount")) === 6) {
+
+            localStorage.setItem("solvecount", 0);
+            //refresh page, solver side will handle flipping
+            setTimeout(function()
+            {
+                location.reload();
+            }, 5000);
+        }
     }
 
 }
@@ -116,6 +152,9 @@ function getQuestion() {
 }
 
 function submitAnswer () {
+
+    attempt += 1;
+
     //If an answer is checked
     if($('[name="answer"]').is(':checked')) {
         //Correct answer
@@ -127,15 +166,15 @@ function submitAnswer () {
                 data:{id: localStorage.getItem("id"),
                         qid: localStorage.getItem("question"),
                         discipline: localStorage.getItem("discipline"),
-                        attempts: attempt
+                        attempts: attempt,
+                        time: totaltime
                         },
-                type: 'post',
+                type: 'post'
             });
 
             terminate();
         } else {
             alert("Try again");
-            attempt += 1;
         }
     } else {
         alert("Please select an answer");
@@ -154,8 +193,7 @@ function submitAnswer () {
 //Terminate if answer correct
 function terminate () {
     attempt = 0;
-
-    var solvecount = 0;
+    totaltime = 0;
 
 
     //Check if completed
@@ -163,28 +201,33 @@ function terminate () {
 
     //Reset current timer value
 
-    clearInterval(x);
-    $('#timer').html("Time Taken: " + 0 + "h " + 0 + "m " + 0 + "s ");
+    resetTimer();
 
     $.ajax({
         url:"php/countsolved.php",
         data:{discipline: localStorage.getItem("discipline")},
         type: 'post',
         success: function (result) {
-            solvecount= parseInt(result);
+            localStorage.setItem("solvecount", parseInt(result));
         }
     });
 
-    console.log(solvecount);
 
-    if(solvecount === 6) {
-        //send system message that triggers reset
+    if(parseInt(localStorage.getItem("solvecount")) === 6) {
 
+        localStorage.setItem("solvecount", 0);
+        //flip and refresh
+        $.ajax({
+            url:"php/roleflip.php",
+            success: function () {
+                localStorage.setItem("solvecount", 0);
+                location.reload();
+            }
+        });
     } else {
 
         //load new question
         getQuestion();
-        //Grab new time from question log
         //start new timer
 
         start = new Date();
@@ -194,10 +237,10 @@ function terminate () {
 
 function resetTimer() {
 
-
+    clearInterval(x);
+    $('#timer').html("Time Taken: " + 0 + "h " + 0 + "m " + 0 + "s ");
 
 }
-
 
 
 //runs timer
@@ -205,10 +248,35 @@ function timer() {
 
     var now = new Date() - start;
 
+    totaltime = Math.floor((now/1000));
+
     var hours = Math.floor((now % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((now % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((now % (1000 * 60)) / 1000);
 
     $('#timer').html("Time Taken: " + hours + "h " + minutes + "m " + seconds + "s ");
 
+}
+
+$("#mess").keydown(function (event) {
+    var keypressed = event.keyCode || event.which;
+    if (keypressed === 13) {
+        send();
+    }
+});
+
+function send() {
+    console.log($('#mess').val().length);
+    if($('#mess').val().length > 0) {
+        $.ajax({
+            url:"php/send.php",
+            data:{uid: localStorage.getItem("id"),
+                name: localStorage.getItem("name"),
+                role: localStorage.getItem("role"),
+                message: $('#mess').val()},
+            type: 'post'
+        });
+
+        $('#mess').val("");
+    }
 }

@@ -8,14 +8,21 @@
 
 require_once ("connect.php");
 
-$discipline = $_POST['discipline'];
+$tempdisc = $_POST['discipline'];
 
 $query = $link -> prepare("SELECT * FROM solvelog WHERE disc=?");
 $query->bind_param("s", $disc);
-$disc = $discipline;
-$query->execute();
-$query->store_result();
+$disc = $tempdisc;
 
-echo $query->num_rows();
+$query->execute();
+$result = $query->get_result();
+
+$numbrows = 0;
+
+while($row = $result->fetch_row()) {
+    $numbrows += 1;
+}
+
+echo $numbrows;
 
 ?>

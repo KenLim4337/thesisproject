@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2017 at 05:39 PM
+-- Generation Time: Oct 12, 2017 at 11:50 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.35
 
@@ -105,6 +105,13 @@ CREATE TABLE `chatlog` (
   `dtime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `chatlog`
+--
+
+INSERT INTO `chatlog` (`lid`, `uid`, `name`, `message`, `role`, `dtime`) VALUES
+(1, 4, 'System', 'Ready?', 'SYS', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -130,7 +137,7 @@ INSERT INTO `question` (`qid`, `text`, `disc`) VALUES
 (7, 'What is the correct jQuery selector for targeting all image elements in a HTML document?', 'PSY'),
 (8, 'After the assignment x &#61; &#39;Very Naughty Boy&#39;, which of the following assigns &#39;augh&#39; to the variable y?', 'PSY'),
 (9, 'What does the term illustrators refer to?', 'IT'),
-(10, 'Grace and Alex are course mates and Alex has a car. After class on Friday, Grace asked Alex if he could drive her home as she had missed her bus.  Alex agreed. When they were almost at Grace’s house, she mentioned that she needed to collect her flat-pack bookshelves from Ikea and because Ikea was not far from Grace’s house, she asked Alex if he would mind helping her by transporting the furniture from Ikea to her house and then assembling it for her. What persuasion technique was Grace using?', 'IT'),
+(10, 'Grace and Alex are course mates and Alex has a car. After class on Friday, Grace asked Alex if he could drive her home.  Alex agreed. When they were almost at Grace&#39s house, she mentioned that she needed to collect her flat-pack bookshelves from Ikea and asked Alex if he would mind helping her by transporting the furniture. What persuasion technique was Grace using?', 'IT'),
 (11, 'If the null hypothesis is false and the researcher declares a relationship in the data to be statistically significant in the same direction to the direction in the population, which of the following has occurred?', 'IT'),
 (12, 'According to social cognitive explanations, why are people so aggressive?', 'IT'),
 (13, 'Lucas is currently in an active phase of Schizophrenia. He feels like there are spiders crawling all over him.  Which statement best describes his reported symptom?', 'IT');
@@ -154,11 +161,11 @@ CREATE TABLE `questionlog` (
 --
 
 CREATE TABLE `solvelog` (
-  `id` int(3) NOT NULL,
+  `sid` int(3) NOT NULL,
   `uid` int(3) NOT NULL,
   `qid` int(3) NOT NULL,
-  `timetaken` varchar(10) NOT NULL,
   `attempts` int(3) NOT NULL,
+  `timetaken` int(10) NOT NULL,
   `disc` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -183,7 +190,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `disc`, `role`, `posts`, `solved`, `guided`) VALUES
-(1, 'IT Came Upon the Midnight Clear', 'IT', 'GUI', 0, 0, 0),
+(1, 'ITs Alive', 'IT', 'GUI', 0, 0, 0),
 (3, 'Psyght for Sore Eyes', 'PSY', 'SOL', 0, 0, 0),
 (4, 'System', 'SYS', 'SYS', 0, 0, 0);
 
@@ -219,7 +226,8 @@ ALTER TABLE `questionlog`
 -- Indexes for table `solvelog`
 --
 ALTER TABLE `solvelog`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`sid`),
+  ADD UNIQUE KEY `qid` (`qid`);
 
 --
 -- Indexes for table `user`
@@ -240,7 +248,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `chatlog`
 --
 ALTER TABLE `chatlog`
-  MODIFY `lid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `lid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `question`
 --
@@ -250,12 +258,12 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `questionlog`
 --
 ALTER TABLE `questionlog`
-  MODIFY `qlid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `qlid` int(3) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `solvelog`
 --
 ALTER TABLE `solvelog`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `sid` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 --
 -- AUTO_INCREMENT for table `user`
 --

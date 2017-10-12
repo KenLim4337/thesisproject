@@ -1,20 +1,16 @@
 <?php
 require_once ("connect.php");
 
-$query = $link -> prepare("SELECT * FROM chatlog;");
+$query = $link -> prepare("SELECT * FROM chatlog");
 $query -> execute();
-
 
 $result = $query->get_result();
 
-
-echo "lolwhy";
-
 while ($row = $result->fetch_assoc()) {
-    echo $row["message"];
+    echo ("<ul>".$row["name"]."[".$row["role"]."] "."[".$row["dtime"]."]  - ".$row["message"]."</ul>");
 }
 
 $query->close();
 $link->close();
-mysqli_close($link);
+
 ?>

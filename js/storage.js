@@ -5,6 +5,7 @@ localStorage.setItem("discipline","");
 function selit() {
     localStorage.setItem("discipline","IT");
     localStorage.setItem("id",1);
+    localStorage.setItem("name", "ITs Alive");
     $('#pickit').addClass("selected");
     $('#pickpsy').removeClass("selected");
 }
@@ -12,6 +13,7 @@ function selit() {
 function selpsy() {
     localStorage.setItem("discipline","PSY");
     localStorage.setItem("id",3);
+    localStorage.setItem("name", "Psyght for Sore Eyes");
     $('#pickpsy').addClass("selected");
     $('#pickit').removeClass("selected");
 }
