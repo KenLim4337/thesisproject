@@ -14,6 +14,15 @@ if (localStorage.getItem("discipline")===null) {
             localStorage.setItem("role", obj.role);
         }
     });
+
+    if(localStorage.getItem("role") === "GUI") {
+        //hide timer and submit
+        $('#timer').hide();
+        $('#subanswer').hide();
+    } else if (localStorage.getItem("role") === "SOL") {
+        $('#timer').show();
+        $('#subanswer').show();
+    }
 }
 
 //Timer and refresher variables
@@ -23,14 +32,6 @@ var start;
 
 //Get first question
 getQuestion();
-
-$.ajax({
-    url:"php/timegrab.php",
-    success: function (result) {
-        //if reset system message, switch teams and refresh page
-        console.log(result);
-    }
-});
 
 
 //First timer
@@ -66,7 +67,11 @@ function getQuestion() {
                 $('#answer').empty();
 
                 $.each(question[1], function (i, val) {
-                    $('#answer').append("<input id='rad' type='radio' name='answer' value='" + val[3] + "'>" + val[2] + "</input><br />");
+                    if(localStorage.getItem("role") === "SOL") {
+                        $('#answer').append("<input id='rad' type='radio' name='answer' value='" + val[3] + "'>" + val[2] + "</input><br />");
+                    } else {
+                        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
+                    }
                 });
             }
         }

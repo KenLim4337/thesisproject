@@ -9,6 +9,8 @@
 //Gets datetime of most recent question
 require_once ("connect.php");
 
+date_default_timezone_set('Australia/Brisbane');
+
 $query = $link->prepare("SELECT * FROM questionlog ORDER BY dtime DESC LIMIT 1");
 $query->execute();
 $result = $query->get_result();
