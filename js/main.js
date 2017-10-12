@@ -8,9 +8,9 @@ if (localStorage.getItem("discipline")===null) {
         data: {discipline: localStorage.getItem("discipline")},
         type: "post",
         success: function (result) {
-            localStorage.setItem("role", result);
             var obj = jQuery.parseJSON(result);
             console.log(obj.role);
+            localStorage.setItem("role", obj.role);
         }
     });
 }
