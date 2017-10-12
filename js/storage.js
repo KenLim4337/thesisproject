@@ -4,12 +4,14 @@ localStorage.setItem("discipline","");
 
 function selit() {
     localStorage.setItem("discipline","IT");
+    localStorage.setItem("id",1);
     $('#pickit').addClass("selected");
     $('#pickpsy').removeClass("selected");
 }
 
 function selpsy() {
     localStorage.setItem("discipline","PSY");
+    localStorage.setItem("id",3);
     $('#pickpsy').addClass("selected");
     $('#pickit').removeClass("selected");
 }

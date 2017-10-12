@@ -118,6 +118,12 @@ function submitAnswer () {
     if($('[name="answer"]').is(':checked')) {
         //Correct answer
         if(parseInt($('[name="answer"]:checked').val()) === 1) {
+            //Update solvelog
+            /*
+            $.ajax({
+                url:"php/correct.php",
+            });
+            */
             terminate();
         } else {
             alert("Try again");
