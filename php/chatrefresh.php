@@ -15,6 +15,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $query->close();
-
+$link->close();
 mysqli_close($link);
 ?>

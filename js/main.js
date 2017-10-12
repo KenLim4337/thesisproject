@@ -37,6 +37,7 @@ $.ajax({
     var refresh = setInterval(function() {getChat()},1000);
     var start;
 
+    var attempt = 0;
 
 //First timer
 //x = setInterval(function() {timer()},1000);
@@ -83,7 +84,6 @@ function getChat() {
         });
     }
 
-        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
 }
 
 //Question get
@@ -100,6 +100,8 @@ function getQuestion() {
             } else {
                 var question = jQuery.parseJSON(result);
                 $('#question').html(question[0][1]);
+
+                localStorage.setItem("question", question[0][0]);
 
                 $('#answer').empty();
 
@@ -119,14 +121,21 @@ function submitAnswer () {
         //Correct answer
         if(parseInt($('[name="answer"]:checked').val()) === 1) {
             //Update solvelog
-            /*
+
             $.ajax({
                 url:"php/correct.php",
+                data:{id: localStorage.getItem("id"),
+                        qid: localStorage.getItem("question"),
+                        discipline: localStorage.getItem("discipline"),
+                        attempts: attempt
+                        },
+                type: 'post',
             });
-            */
+
             terminate();
         } else {
             alert("Try again");
+            attempt += 1;
         }
     } else {
         alert("Please select an answer");
@@ -142,9 +151,9 @@ function submitAnswer () {
 }
 
 
-//Terminate if answert correct
+//Terminate if answer correct
 function terminate () {
-
+    attempt = 0;
 
     var solvecount = 0;
 
