@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Guide</title>
+    <title>Main</title>
+    <script src="js/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,19 +13,49 @@
         <!--Populates based on current discipline/role-->
         <div id="timer">
             <!--Timer to time interaction -->
+            Time Taken: 0h 0m 0s
         </div>
 
+        <div id="qa">
+            <div id="question">
+                This is but a regular question, disguised as a special one. It is not actually special, just really weird.
+
+            </div>
+
+            <div id="answer">
+                <input type="radio" name="answer">A is round</input> <br />
+                <input type="radio" name="answer">B is a square</input> <br />
+                <input type="radio" name="answer">A is cool</input> <br />
+                <input type="radio" name="answer">B is not</input> <br />
+            </div>
+
+            <button id="subanswer" onclick="submitAnswer();">
+                Submit Answer
+            </button>
+
+        </div>
 
     </div>
 
-    <div id="display">
-        <!--Main communications display-->
+    <div id = "comms">
+        <div id="display">
+            <!--Main communications display-->
+            Spaceman [00:00] - We space now <br \>
+            Tomorrowman [00:01] - No we space tomorrow
+        </div>
 
+        <div id="contributors">
+            <!--List of contributors-->
+            Spaceman (12345678)  <br \>
+            Tomorrowman (12345679)
+
+        </div>
     </div>
 
-    <div id="contributors">
-        <!--List of contributors-->
 
+    <div id="chat">
+        <textarea max-length="30000" placeholder="talk to me"></textarea>
+        <button id="send">Send</button>
     </div>
 
     <div id="overlay">
@@ -33,4 +64,6 @@
     </div>
 
 </body>
+
+<script src="js/main.js"></script>
 </html>

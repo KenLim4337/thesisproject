@@ -3,24 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
+    <script src="js/jquery-3.2.1.js"></script>
     <link rel="stylesheet" href="css/style.css">
 <body>
 <!--Pick a discipline, or preset based on computer, set variable in local storage-->
 
-    <form>
+        <h1>Select Your Discipline</h1>
 
-        <div>
-            <div id="pickit"></div>
-            <div id="pickpsy"></div>
+
+        <div id="selections">
+            <span onclick="selit();" class="selection" id="pickit">
+                <h2>I am an Information Technology student</h2>
+
+
+            </span>
+            <span onclick="selpsy();" class="selection" id="pickpsy">
+
+                <h2>I am a Psychology Student</h2>
+
+
+            </span>
         </div>
 
-        <div>
-            <button id="choose">
-
+        <div id="choose">
+            <button id="button">
+                Go
             </button>
         </div>
 
-    </form>
 
 </body>
+
+
+<script src="js/storage.js"></script>
+
 </html>

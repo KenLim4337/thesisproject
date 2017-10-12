@@ -1,37 +1,131 @@
 body {
-
+    width: 50%;
+    margin: auto;
 }
 
 /*index page css*/
-pickit {
-
+#selections {
+    text-align: center;
+    margin: auto;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
 }
 
-pickpsy {
-
+.selection {
+    width: 49%;
+    height: 15vh;
+    display:inline;
+    float:left;
+    margin-bottom: 4vh;
+    vertical-align: middle;
+    line-height: 11vh;
 }
 
-choose {
-
+#pickit {
+    background-color: aquamarine;
 }
+
+#pickpsy {
+    background-color: darkolivegreen;
+}
+
+#choose {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+
+#button {
+    width: 20vw;
+    height: 5vh;
+    background-color: #cccccc;
+    border-radius: 15px;
+}
+
+
 
 /*main page css*/
-role {
+#role {
+    border-style: outset;
+    width: 100%;
+    height: 40vh;
+    margin-top: 15px;
+}
+
+#timer {
+    margin: 15px 15px 15px 15px;
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+#qa {
+    margin: 15px 15px 15px 15px;
 
 }
 
-timer {
+#question {
 
 }
 
-display {
+#answer {
+    padding-top: 15px;
+}
+
+#answer input {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: bold;
+}
+
+#qa button {
+    margin: auto;
+    margin-top: 20px;
+}
+
+#display {
+    width: 70%;
+    float: left;
+    height: 25vh;
+    border-style: outset;
+    padding: 10px 10px 10px 10px;
+    overflow: scroll;
+}
+
+#contributors {
+    width: 24.5%;
+    float: right;
+    height: 25vh;
+    border-style: outset;
+    padding: 10px 10px 10px 10px;
+    position: relative;
+    left: 5px;
+    overflow: scroll;
+}
+
+#chat {
 
 }
 
-contributors {
+#chat textarea {
+    width:90%;
+    float:left;
+    resize: none;
+    height: 5vh;
+    margin-top: 10px;
+}
+
+#send {
+    position: relative;
+    top: 25px;
+    right: 15px;
+    float:right;
+}
+
+#overlay {
 
 }
 
-overlay {
-
+#comms {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
