@@ -17,7 +17,7 @@ if (localStorage.getItem("discipline")===null) {
 
 //Timer and refresher variables
 var x;
-var refresh = setInterval(function() {getChat()},500);
+//var refresh = setInterval(function() {getChat()},500);
 var start;
 
 //Contributor get (compare current list with chatlist)
@@ -36,7 +36,15 @@ function getChat() {
 
 //Question get
 function getQuestion() {
-
+    $.ajax({
+        url:"php/questions.php",
+        success: function (result) {
+            var question = jQuery.parseJSON(result);
+            console.log(question[1]);
+        }
+    });
+    localStorage.setItem("currentQuestion","");
+    localStorage.setItem("currentAnswers","");
 }
 
 
@@ -56,7 +64,7 @@ function timer() {
 
 
 function submitAnswer () {
-
+    getQuestion();
     //Answer chatlog
 
     /*if(correct) {
@@ -64,7 +72,7 @@ function submitAnswer () {
     } else {
         alert ("Try again");
     }*/
-    terminate();
+    //terminate();
 }
 
 
