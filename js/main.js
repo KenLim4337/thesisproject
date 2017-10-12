@@ -1,16 +1,23 @@
-console.log(localStorage.getItem("discipline"));
-
-
 
 if (localStorage.getItem("discipline")===null) {
     window.location.href = "index.html";
 } else {
     console.log(localStorage.getItem("discipline"));
+    $.ajax({
+        url: "php/rolegrab.php",
+        data: {discipline: localStorage.getItem("discipline")},
+        type: "post",
+        success: function (result) {
+            localStorage.setItem("role", result);
+            var obj = jQuery.parseJSON(result);
+            console.log(obj.role);
+        }
+    });
 }
 
 //Timer and refresher variables
 var x;
-var refresh = setInterval(function() {getChat()},500);
+//var refresh = setInterval(function() {getChat()},500);
 var start;
 
 //Contributor get (compare current list with chatlist)
