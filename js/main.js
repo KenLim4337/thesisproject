@@ -38,13 +38,23 @@ function getChat() {
 function getQuestion() {
     $.ajax({
         url:"php/questions.php",
+        data:{discipline: localStorage.getItem("discipline")},
+        type: 'post',
         success: function (result) {
-            var question = jQuery.parseJSON(result);
-            console.log(question[1]);
+            console.log(result.length);
+            if (result.length === 0) {
+                getQuestion();
+            } else {
+                var question = jQuery.parseJSON(result);
+                localStorage.setItem("currentQuestion", JSON.stringify(question[0]));
+                localStorage.setItem("currentAnswers", JSON.stringify(question[1]));
+                console.log(JSON.parse(localStorage.getItem("currentQuestion"))[1]);
+                $.each(JSON.parse(localStorage.getItem("currentAnswers")), function (i, val) {
+                    console.log(val[2]);
+                });
+            }
         }
     });
-    localStorage.setItem("currentQuestion","");
-    localStorage.setItem("currentAnswers","");
 }
 
 
@@ -80,9 +90,9 @@ function submitAnswer () {
 function terminate () {
     clearInterval(x);
     $('#timer').html("Time Taken: " + 0 + "h " + 0 + "m " + 0 + "s ");
-    start = new Date();
-    console.log(start);
-    x = setInterval(function() {timer()},1000);
     //load new question
+    //Grab new time from question log
     //start new timer
+    start = new Date();
+    x = setInterval(function() {timer()},1000);
 }
