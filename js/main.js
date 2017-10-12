@@ -24,6 +24,15 @@ var start;
 //Get first question
 getQuestion();
 
+$.ajax({
+    url:"php/timegrab.php",
+    success: function (result) {
+        //if reset system message, switch teams and refresh page
+        console.log(result);
+    }
+});
+
+
 //First timer
 //x = setInterval(function() {timer()},1000);
 
@@ -129,6 +138,8 @@ function terminate () {
 }
 
 function resetTimer() {
+
+
 
 }
 

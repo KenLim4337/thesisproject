@@ -11,6 +11,7 @@ require_once ("connect.php");
 $discipline = $_POST['discipline'];
 
 $query = $link -> prepare("SELECT * FROM solvelog WHERE disc=?");
+$query->bind_param("s", $disc);
 $disc = $discipline;
 $query->execute();
 $query->store_result();
