@@ -28,6 +28,16 @@ $.ajax({
             getQuestion();
         }
 
+        var role;
+
+        if (obj.role === "GUI") {
+            role = "GUIDE";
+        } else {
+            role = "SOLVER";
+        }
+
+        $('#roledisplay').html("You are a " + role);
+
         localStorage.setItem("role", obj.role);
     }
 });
@@ -40,6 +50,7 @@ $.ajax({
     //number of attempts and attempt timer
     var attempt = 0;
     var totaltime = 0;
+    var chatlength = 0;
 
     //init solve count
     localStorage.setItem("solvecount", "0");
@@ -58,10 +69,15 @@ function getChat() {
         url:"php/chatrefresh.php",
         success: function (result) {
 
-            $('#display').html(result);
+            if (result.length > chatlength) {
+                chatlength = result.length;
 
-            $('#display').animate({
-                scrollTop: $('#display').get(0).scrollHeight});
+                $('#display').animate({
+                    scrollTop: $('#display').get(0).scrollHeight});
+
+                $('#display').html(result);
+            }
+
         }
     });
 
@@ -82,8 +98,11 @@ function getChat() {
                     $('#answer').empty();
 
                     $.each(question[1], function (i, val) {
-
-                        $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
+                        if (val[3] === 1) {
+                            $('#answer').append("<ul style='color:green;font-weight: bold;'>" + "- " + val[2] + "</ul>");
+                        } else {
+                            $('#answer').append("<ul>" + "- " + val[2] + "</ul>");
+                        }
 
                     });
                 }

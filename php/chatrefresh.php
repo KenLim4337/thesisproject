@@ -1,8 +1,9 @@
 <?php
 require_once ("connect.php");
 
-$query = $link -> prepare("SELECT * FROM chatlog");
-$query -> execute();
+$query = $link->prepare("SELECT * FROM chatlog");
+
+$query->execute();
 
 $result = $query->get_result();
 

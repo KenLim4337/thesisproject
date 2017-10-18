@@ -8,7 +8,7 @@
 
 /*php connection, to be require_once in other query files*/
 //get ini File
-$database = parse_ini_file("/data.ini");
+$database = parse_ini_file("data.ini");
 
 
 //store credentials

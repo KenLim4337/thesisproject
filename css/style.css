@@ -64,6 +64,12 @@ body {
     font-weight: bold;
 }
 
+#roledisplay {
+    margin: 15px 15px 15px 15px;
+    font-size: 20pt;
+    font-weight: bold;
+}
+
 #qa {
     margin: 15px 15px 15px 15px;
 
@@ -89,7 +95,7 @@ body {
 }
 
 #display {
-    width: 70%;
+    width: 37vw;
     float: left;
     height: 25vh;
     border-style: outset;
@@ -98,7 +104,7 @@ body {
 }
 
 #contributors {
-    width: 24.5%;
+    width: 8vw;
     float: right;
     height: 25vh;
     border-style: outset;

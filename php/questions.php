@@ -1,6 +1,8 @@
 <?php
 
-require_once ("connect.php");
+header('Access-Control-Allow-Origin: *');
+
+require_once ('connect.php');
 
 $discipline = $_POST['discipline'];
 
