@@ -36,7 +36,7 @@ $.ajax({
             role = "SOLVER";
         }
 
-        $('#roledisplay').html("You are a " + role);
+        $('#roledisplay').html("Greetings " + localStorage.getItem("discipline") + " student, you are a " + role);
 
         localStorage.setItem("role", obj.role);
     }
@@ -111,6 +111,23 @@ function getChat() {
 
         });
 
+
+        $.ajax({
+            url: "php/rolegrab.php",
+            data: {discipline: localStorage.getItem("discipline")},
+            type: "post",
+            success: function (result) {
+                var obj = jQuery.parseJSON(result);
+
+                console.log(obj.role);
+
+                if(localStorage.getItem("role") != obj.role) {
+                    location.reload();
+                }
+            }
+        });
+
+        /*
         var otherdisc;
 
         if (localStorage.getItem("discipline") === "PSY") {
@@ -118,7 +135,9 @@ function getChat() {
         } else if (localStorage.getItem("discipline") === "IT") {
             otherdisc = "PSY";
         }
+        */
 
+        /*
         $.ajax({
             url:"php/countsolved.php",
             data:{discipline: otherdisc},
@@ -137,6 +156,7 @@ function getChat() {
                 location.reload();
             }, 5000);
         }
+        */
     }
 
 }
@@ -231,18 +251,19 @@ function terminate () {
         }
     });
 
+    $.ajax({
+        url:"php/roleflip.php",
+        success: function () {
+            location.reload();
+        }
+    });
 
+    /*
     if(parseInt(localStorage.getItem("solvecount")) === 6) {
 
         localStorage.setItem("solvecount", 0);
         //flip and refresh
-        $.ajax({
-            url:"php/roleflip.php",
-            success: function () {
-                localStorage.setItem("solvecount", 0);
-                location.reload();
-            }
-        });
+
     } else {
 
         //load new question
@@ -252,6 +273,7 @@ function terminate () {
         start = new Date();
         x = setInterval(function() {timer()},1000);
     }
+    */
 }
 
 function resetTimer() {
